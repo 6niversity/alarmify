@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.util.Scanner;
-import java.util.concurrent.CancellationException;
 
 import javax.swing.*;
 import java.io.File;
@@ -10,6 +9,12 @@ public class App implements Runnable{
     static String clock;
     static Timer timer2;
     public static void main(String[] args) throws Exception {
+        try {
+            UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         App main = new App();
         Thread threadApp = new Thread(main);
         threadApp.start();
@@ -48,13 +53,69 @@ public class App implements Runnable{
             }
         }    
     }
+    public static void alarmScreen() {
+        JFrame alarmFrame = new JFrame();
+        Container contentpane = alarmFrame.getContentPane();
+
+        alarmFrame.setSize(535, 299);
+        alarmFrame.setResizable(false);
+        alarmFrame.setLocationRelativeTo(null);
+        alarmFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        contentpane.setBackground(Color.BLACK);
+        contentpane.setLayout(null);
+
+        // Custom Fonts
+        Font geistMono10px = null;
+        Font geistMono13px = null;
+
+        try {
+            geistMono10px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(10f);
+            geistMono13px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(13f);
+
+            GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            graphicsEnvironment.registerFont(geistMono10px);
+            graphicsEnvironment.registerFont(geistMono13px);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+        }
+
+        // Create title label
+        JLabel title = new JLabel("alarmify");
+        title.setFont(geistMono10px);
+        title.setForeground(new Color(235, 235, 235));
+        title.setBounds(11, 10, 185, 18);
+
+        // Alarm label
+        JLabel alarmMessage = new JLabel("*alarm sound*");
+        alarmMessage.setFont(geistMono10px);
+        alarmMessage.setForeground(Color.WHITE);
+        alarmMessage.setBounds(229, 143, 78, 13);
+
+        // Continue button
+        JButton continueButton = new JButton("CONTINUE");
+        continueButton.setFont(geistMono10px);
+        continueButton.setBackground(Color.WHITE);
+        continueButton.setForeground(Color.BLACK);
+        continueButton.setBounds(440, 240, 90, 23);
+
+        continueButton.addActionListener(e -> {
+            mainApp();
+        });
+
+        contentpane.add(title);
+        contentpane.add(alarmMessage);
+        contentpane.add(continueButton);
+
+        alarmFrame.setVisible(true);
+    }
 
     public static void mainApp() {
         // Frame & Container => Container keeps all the elements within the frame
         JFrame frame = new JFrame();
         Container contentpane = frame.getContentPane();
 
-        frame.setSize(477, 849);
+        frame.setSize(535, 299);
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -63,40 +124,40 @@ public class App implements Runnable{
         contentpane.setLayout(null);
 
         // Custom Fonts
-        Font geistMono14px = null;
-        Font geistMono24px = null;
-        Font geistMono128px = null;
+        Font geistMono10px = null;
+        Font geistMono13px = null;
+        Font geistMono64px = null;
 
         try {
-            geistMono14px = Font.createFont(Font.TRUETYPE_FONT, new File("alarm/font/geistmono.ttf")).deriveFont(14f);
-            geistMono24px = Font.createFont(Font.TRUETYPE_FONT, new File("alarm/font/geistmono.ttf")).deriveFont(24f);
-            geistMono128px = Font.createFont(Font.TRUETYPE_FONT, new File("alarm/font/geistmono.ttf")).deriveFont(128f);
+            geistMono10px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(10f);
+            geistMono13px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(13f);
+            geistMono64px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(64f);
 
             GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            graphicsEnvironment.registerFont(geistMono14px);
-            graphicsEnvironment.registerFont(geistMono24px);
-            graphicsEnvironment.registerFont(geistMono128px);
+            graphicsEnvironment.registerFont(geistMono10px);
+            graphicsEnvironment.registerFont(geistMono13px);
+            graphicsEnvironment.registerFont(geistMono64px);
         } catch (IOException | FontFormatException e) {
             e.printStackTrace();
         }
 
         // Create title label
-        JLabel title = new JLabel("minimalistic prototype");
-        title.setFont(geistMono14px);
+        JLabel title = new JLabel("alarmify");
+        title.setFont(geistMono10px);
         title.setForeground(new Color(235, 235, 235));
-        title.setBounds(11, 10, 185, 18);
+        title.setBounds(11, 10, 185, 13);
 
         // Create current time label
-        JLabel currentTime = new JLabel("CURRENT TIME:");
-        currentTime.setFont(geistMono14px);
+        JLabel currentTime = new JLabel("current time:");
+        currentTime.setFont(geistMono10px);
         currentTime.setForeground(new Color(235, 235, 235));
-        currentTime.setBounds(184, 66, 110, 18);
+        currentTime.setBounds(229, 103, 110, 18);
 
         // Create clock
         JLabel c = new JLabel(clock);
-        c.setFont(geistMono128px);
+        c.setFont(geistMono64px);
         c.setForeground(new Color(235, 235, 235));
-        c.setBounds(47, 58, 500, 166);
+        c.setBounds(172, 105, 500, 83);
 
         Timer timer = new Timer(1000, e -> {
             c.setText(clock);
@@ -105,24 +166,24 @@ public class App implements Runnable{
         timer.start();
 
         // Create Label
-        JLabel setAlarm = new JLabel("SET ALARM:");
-        setAlarm.setFont(geistMono14px);
+        JLabel setAlarm = new JLabel("set alarm:");
+        setAlarm.setFont(geistMono10px);
         setAlarm.setForeground(new Color(235, 235, 235));
-        setAlarm.setBounds(197, 635, 84, 18);
+        setAlarm.setBounds(11, 218, 60, 13);
 
         // Create text field
         JTextField input = new JTextField();
         input.setBorder(BorderFactory.createLineBorder(new Color(52, 52, 52), 1));
         input.setBackground(Color.BLACK);
         input.setForeground(Color.WHITE);
-        input.setBounds(30, 675, 417, 46);
+        input.setBounds(11, 235, 206, 23);
 
         // Create start button
-        JButton startAlarm = new JButton("start");
-        startAlarm.setFont(geistMono24px);
+        JButton startAlarm = new JButton("START");
+        startAlarm.setFont(geistMono10px);
         startAlarm.setForeground(Color.BLACK);
         startAlarm.setBackground(Color.WHITE);
-        startAlarm.setBounds(26, 745, 179, 46);
+        startAlarm.setBounds(224, 235, 90, 23);
 
         // startAlarm event => Button functionality
         startAlarm.addActionListener(e -> {
@@ -133,19 +194,19 @@ public class App implements Runnable{
                 int HH = Integer.parseInt(splitInput[0]);
                 int MM = Integer.parseInt(splitInput[1]);
 
-                Font geistMono14 = null;
-                Font geistMono24 = null;
-                Font geistMono128 = null;
+                Font geistMono10 = null;
+                Font geistMono13 = null;
+                Font geistMono64 = null;
 
                 try {
-                    geistMono14 = Font.createFont(Font.TRUETYPE_FONT, new File("alarm/font/geistmono.ttf")).deriveFont(14f);
-                    geistMono24 = Font.createFont(Font.TRUETYPE_FONT, new File("alarm/font/geistmono.ttf")).deriveFont(24f);
-                    geistMono128 = Font.createFont(Font.TRUETYPE_FONT, new File("alarm/font/geistmono.ttf")).deriveFont(128f);
+                    geistMono10 = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(10f);
+                    geistMono13 = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(23f);
+                    geistMono64 = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(64f);
 
                     GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-                    graphicsEnvironment.registerFont(geistMono14);
-                    graphicsEnvironment.registerFont(geistMono24);
-                    graphicsEnvironment.registerFont(geistMono128);
+                    graphicsEnvironment.registerFont(geistMono10);
+                    graphicsEnvironment.registerFont(geistMono13);
+                    graphicsEnvironment.registerFont(geistMono64);
                 } catch (IOException | FontFormatException ex2) {
                     ex2.printStackTrace();
                 }
@@ -154,21 +215,21 @@ public class App implements Runnable{
                 input.setVisible(false);
                 startAlarm.setVisible(false);
                 
-                JLabel alarmSetFor = new JLabel("ALARM SET FOR:");
-                alarmSetFor.setFont(geistMono14);
+                JLabel alarmSetFor = new JLabel("alarm set for:");
+                alarmSetFor.setFont(geistMono10);
                 alarmSetFor.setForeground(Color.WHITE);
-                alarmSetFor.setBounds(197, 604, 118, 18);
+                alarmSetFor.setBounds(342, 103, 118, 13);
                 
                 JLabel alarmTime = new JLabel(HH + ":" + MM);
-                alarmTime.setFont(geistMono128);
+                alarmTime.setFont(geistMono64);
                 alarmTime.setForeground(Color.WHITE);
-                alarmTime.setBounds(47, 598, 500, 166);
+                alarmTime.setBounds(288, 105, 500, 83);
 
-                JButton cancelAlarm = new JButton("cancel");
-                cancelAlarm.setFont(geistMono24);
+                JButton cancelAlarm = new JButton("CANCEL");
+                cancelAlarm.setFont(geistMono10);
                 cancelAlarm.setBackground(Color.WHITE);
                 cancelAlarm.setForeground(Color.BLACK);
-                cancelAlarm.setBounds(149, 745, 179, 46);
+                cancelAlarm.setBounds(440, 240, 90, 23);
 
                 cancelAlarm.addActionListener(k -> {
                     mainApp();
@@ -186,6 +247,9 @@ public class App implements Runnable{
                 });
 
                 timer2.start();
+                
+                currentTime.setBounds(115, 103, 110, 18);
+                c.setBounds(58, 105, 500, 83);
 
                 contentpane.add(alarmSetFor);
                 contentpane.add(alarmTime);
@@ -208,62 +272,4 @@ public class App implements Runnable{
 
         frame.setVisible(true);
     }
-
-    public static void alarmScreen() {
-        JFrame alarmFrame = new JFrame();
-        Container contentpane = alarmFrame.getContentPane();
-
-        alarmFrame.setSize(477, 849);
-        alarmFrame.setResizable(false);
-        alarmFrame.setLocationRelativeTo(null);
-        alarmFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        contentpane.setBackground(Color.BLACK);
-        contentpane.setLayout(null);
-
-        // Custom Fonts
-        Font geistMono14px = null;
-        Font geistMono24px = null;
-
-        try {
-            geistMono14px = Font.createFont(Font.TRUETYPE_FONT, new File("alarm/font/geistmono.ttf")).deriveFont(14f);
-            geistMono24px = Font.createFont(Font.TRUETYPE_FONT, new File("alarm/font/geistmono.ttf")).deriveFont(24f);
-
-            GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
-            graphicsEnvironment.registerFont(geistMono14px);
-            graphicsEnvironment.registerFont(geistMono24px);
-        } catch (IOException | FontFormatException e) {
-            e.printStackTrace();
-        }
-
-        // Create title label
-        JLabel title = new JLabel("minimalistic prototype");
-        title.setFont(geistMono14px);
-        title.setForeground(new Color(235, 235, 235));
-        title.setBounds(11, 10, 185, 18);
-
-        // Alarm label
-        JLabel alarmMessage = new JLabel("ALARM");
-        alarmMessage.setFont(geistMono14px);
-        alarmMessage.setForeground(Color.WHITE);
-        alarmMessage.setBounds(218, 438, 42, 18);
-
-        // Continue button
-        JButton continueButton = new JButton("continue");
-        continueButton.setFont(geistMono24px);
-        continueButton.setBackground(Color.WHITE);
-        continueButton.setForeground(Color.BLACK);
-        continueButton.setBounds(149, 745, 179, 46);
-
-        continueButton.addActionListener(e -> {
-            mainApp();
-        });
-
-        contentpane.add(title);
-        contentpane.add(alarmMessage);
-        contentpane.add(continueButton);
-
-        alarmFrame.setVisible(true);
-    }
-
 }
