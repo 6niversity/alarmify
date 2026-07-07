@@ -1,18 +1,23 @@
-## Getting Started
+## ⏰ alarmify
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Welcome to alarmify! This project is a minimalistic clock design made for currently macOS devices using Java Swing.
+This overall is more of a practice project for further Java knowledge.
 
-## Folder Structure
+## 📂 Folder Structure
 
-The workspace contains two folders by default, where:
+The repository contains two folders, where:
 
 - `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+- `font`: the folder containing included font
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+## 📝 Upcoming Changes
+- allowing the user to have a set countdown
+- switch between dark mode and light mode
+- sound playing when the alarm is played
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+## ❗️ Important Information
+Currently alarmify is not in an executable format. The app itself needs to be ran from inside the folder from a terminal or IDE.
+> You can use the default/third-party terminals or popular IDE's. Just make sure the file is being ran within the folder and not outside of it.
 
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+## Authority
+This applicaiton was originally made by [@6niversity] (https://github.com/6niversity)
