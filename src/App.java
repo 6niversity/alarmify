@@ -1,6 +1,4 @@
 import java.awt.*;
-import java.util.Scanner;
-
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +6,11 @@ import java.io.IOException;
 public class App implements Runnable{
     static String clock;
     static Timer timer2;
+
+    private static int hour = 0;
+    private static int minute = 0;
+    private static int second = 0;
+
     public static void main(String[] args) throws Exception {
         try {
             UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
@@ -19,27 +22,6 @@ public class App implements Runnable{
         Thread threadApp = new Thread(main);
         threadApp.start();
         mainApp();
-
-
-
-        Scanner scan = new Scanner(System.in);
-        System.out.println("CLI Alarm Clock // 24 Hour Based");
-
-        try {
-            System.out.print("Enter the hour you desire: ");
-            int h = scan.nextInt();
-            System.out.print("Enter the minute you desire: ");
-            int m = scan.nextInt();
-            scan.close();
-
-            clockThread clock = new clockThread(h, m);
-            Thread thread = new Thread(clock);
-            thread.start();
-
-
-        } catch (Exception e) {
-            System.out.println("The input is supposed to be an integer only.");
-        }
     }
 
     public void run() {
@@ -51,8 +33,9 @@ public class App implements Runnable{
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }    
+        }
     }
+
     public static void alarmScreen() {
         JFrame alarmFrame = new JFrame();
         Container contentpane = alarmFrame.getContentPane();
@@ -100,6 +83,7 @@ public class App implements Runnable{
         continueButton.setBounds(440, 240, 90, 23);
 
         continueButton.addActionListener(e -> {
+            alarmFrame.setVisible(false);
             mainApp();
         });
 
@@ -146,6 +130,18 @@ public class App implements Runnable{
         title.setFont(geistMono10px);
         title.setForeground(new Color(235, 235, 235));
         title.setBounds(11, 10, 185, 13);
+
+        // Stopwatch icon & button
+        ImageIcon stopwatchIcon = new ImageIcon("img/stopwatchIcon.png");
+        JButton stopwatchButton = new JButton(stopwatchIcon);
+        stopwatchButton.setBorderPainted(false);
+        stopwatchButton.setBackground(null);
+        stopwatchButton.setBounds(508, 8, 17, 17);
+
+        stopwatchButton.addActionListener(e -> {
+            frame.setVisible(false);
+            stopwatch();
+        });
 
         // Create current time label
         JLabel currentTime = new JLabel("current time:");
@@ -220,7 +216,7 @@ public class App implements Runnable{
                 alarmSetFor.setForeground(Color.WHITE);
                 alarmSetFor.setBounds(342, 103, 118, 13);
                 
-                JLabel alarmTime = new JLabel(HH + ":" + MM);
+                JLabel alarmTime = new JLabel(String.format("%02d", HH) + ":" + String.format("%02d", MM));
                 alarmTime.setFont(geistMono64);
                 alarmTime.setForeground(Color.WHITE);
                 alarmTime.setBounds(288, 105, 500, 83);
@@ -232,6 +228,7 @@ public class App implements Runnable{
                 cancelAlarm.setBounds(440, 240, 90, 23);
 
                 cancelAlarm.addActionListener(k -> {
+                    frame.setVisible(false);
                     mainApp();
                 });
 
@@ -241,8 +238,9 @@ public class App implements Runnable{
                     int cM = Integer.parseInt(clockSplit[1]);
 
                     if (cH == HH && cM == MM) {
-                        alarmScreen();
                         timer2.stop();
+                        frame.setVisible(false);
+                        alarmScreen();
                     }
                 });
 
@@ -269,6 +267,147 @@ public class App implements Runnable{
         contentpane.add(setAlarm);
         contentpane.add(input);
         contentpane.add(startAlarm);
+        contentpane.add(stopwatchButton);
+
+        frame.setVisible(true);
+    }
+
+    public static void stopwatch() {
+        // Frame & Container => Container keeps all the elements within the frame
+        JFrame frame = new JFrame();
+        Container contentpane = frame.getContentPane();
+
+        frame.setSize(535, 299);
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
+        contentpane.setBackground(new Color(0, 0, 0));
+        contentpane.setLayout(null);
+
+        // Custom Fonts
+        Font geistMono10px = null;
+        Font geistMono13px = null;
+        Font geistMono64px = null;
+
+        try {
+            geistMono10px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(10f);
+            geistMono13px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(13f);
+            geistMono64px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(64f);
+
+            GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            graphicsEnvironment.registerFont(geistMono10px);
+            graphicsEnvironment.registerFont(geistMono13px);
+            graphicsEnvironment.registerFont(geistMono64px);
+        } catch (IOException | FontFormatException e) {
+            e.printStackTrace();
+        }
+
+        // Create title label
+        JLabel title = new JLabel("alarmify");
+        title.setFont(geistMono10px);
+        title.setForeground(new Color(235, 235, 235));
+        title.setBounds(11, 10, 185, 13);
+
+        // Create current time label
+        JLabel stopwatch = new JLabel("stopwatch:");
+        stopwatch.setFont(geistMono10px);
+        stopwatch.setForeground(new Color(235, 235, 235));
+        stopwatch.setBounds(229, 103, 110, 18);
+
+        // Stopwatch icon & button
+        ImageIcon stopwatchIcon = new ImageIcon("img/stopwatchIcon.png");
+        JButton stopwatchButton = new JButton(stopwatchIcon);
+        stopwatchButton.setBorderPainted(false);
+        stopwatchButton.setBackground(null);
+        stopwatchButton.setBounds(508, 8, 17, 17);
+
+        stopwatchButton.addActionListener(e -> {
+            frame.setVisible(false);
+            mainApp();
+        });
+
+        // stopwatch hour
+        JLabel sH = new JLabel("00");
+        sH.setFont(geistMono64px);
+        sH.setForeground(new Color(235, 235, 235));
+        sH.setBounds(114, 106, 77, 83);
+
+        // stopwatch separator ":"
+        JLabel separator1 = new JLabel(":");
+        separator1.setFont(geistMono64px);
+        separator1.setForeground(new Color(235, 235, 235));
+        separator1.setBounds(191, 108, 39, 83);
+
+        // stopwatch minute
+        JLabel sM = new JLabel("00");
+        sM.setFont(geistMono64px);
+        sM.setForeground(new Color(235, 235, 235));
+        sM.setBounds(229, 108, 77, 83);
+
+        // stopwatch separator 2 ":"
+        JLabel separator2 = new JLabel(":");
+        separator2.setFont(geistMono64px);
+        separator2.setForeground(new Color(235, 235, 235));
+        separator2.setBounds(306, 108, 39, 83);
+
+        // stopwatch seconds
+        JLabel sS = new JLabel("00");
+        sS.setFont(geistMono64px);
+        sS.setForeground(new Color(235, 235, 235));
+        sS.setBounds(344, 108, 77, 83);
+
+        // start button
+        JButton startStopwatch = new JButton("START");
+        startStopwatch.setFont(geistMono10px);
+        startStopwatch.setForeground(Color.BLACK);
+        startStopwatch.setBackground(Color.WHITE);
+        startStopwatch.setBounds(335, 235, 90, 23);
+
+        Timer timer = new Timer(1000, e -> {
+            if (minute == 59) {
+                hour++;
+                minute = 0;
+                second = 0;
+                sM.setText(String.format("%02d", minute));
+                sS.setText(String.format("%02d", second));
+            } else if (second == 59) {
+                minute++;
+                second = 0;
+                sM.setText(String.format("%02d", minute));
+                sS.setText(String.format("%02d", second));
+            } else {
+                second++;
+                sS.setText(String.format("%02d", second));
+            }
+        });
+
+        startStopwatch.addActionListener(e -> {
+            timer.start();
+        });
+
+        // stop button
+        JButton stopStopwatch = new JButton("STOP");
+        stopStopwatch.setFont(geistMono10px);
+        stopStopwatch.setForeground(Color.WHITE);
+        stopStopwatch.setBackground(Color.BLACK);
+        stopStopwatch.setBorder(BorderFactory.createBevelBorder(1));
+        stopStopwatch.setBounds(434, 235, 90, 23);
+
+        stopStopwatch.addActionListener(e -> {
+            timer.stop();
+        });
+
+        contentpane.add(title);
+        contentpane.add(stopwatch);
+        contentpane.add(stopwatchButton);
+        contentpane.add(sH);
+        contentpane.add(separator1);
+        contentpane.add(sM);
+        contentpane.add(separator2);
+        contentpane.add(sS);
+        contentpane.add(startStopwatch);
+        contentpane.add(stopStopwatch);
 
         frame.setVisible(true);
     }

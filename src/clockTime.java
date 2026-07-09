@@ -9,6 +9,6 @@ public class clockTime {
         String[] tS = t.toString().split(":");
 
         // Returns
-        return tS[0] + ":" + tS[1];
+        return String.format("%02d", Integer.parseInt(tS[0])) + ":" + String.format("%02d", Integer.parseInt(tS[1]));
     }
 }
