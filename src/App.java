@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class App implements Runnable{
+    // Instance Fields
     static String clock;
     static Timer timer2;
 
@@ -147,15 +148,15 @@ public class App implements Runnable{
         JLabel currentTime = new JLabel("current time:");
         currentTime.setFont(geistMono10px);
         currentTime.setForeground(new Color(235, 235, 235));
-        currentTime.setBounds(229, 103, 110, 18);
+        currentTime.setBounds(229, 99, 110, 18);
 
         // Create clock
         JLabel c = new JLabel(clock);
         c.setFont(geistMono64px);
         c.setForeground(new Color(235, 235, 235));
-        c.setBounds(172, 105, 500, 83);
+        c.setBounds(114, 105, 500, 83);
 
-        Timer timer = new Timer(1000, e -> {
+        Timer timer = new Timer(100, e -> {
             c.setText(clock);
         });
 
@@ -165,30 +166,41 @@ public class App implements Runnable{
         JLabel setAlarm = new JLabel("set alarm:");
         setAlarm.setFont(geistMono10px);
         setAlarm.setForeground(new Color(235, 235, 235));
-        setAlarm.setBounds(11, 218, 60, 13);
+        setAlarm.setBounds(11, 217, 60, 13);
 
-        // Create text field
-        JTextField input = new JTextField();
-        input.setBorder(BorderFactory.createLineBorder(new Color(52, 52, 52), 1));
-        input.setBackground(Color.BLACK);
-        input.setForeground(Color.WHITE);
-        input.setBounds(11, 235, 206, 23);
+        // Create input text field
+        JTextField input1 = new JTextField();
+        input1.setBorder(BorderFactory.createLineBorder(new Color(52, 52, 52), 1));
+        input1.setBackground(Color.BLACK);
+        input1.setForeground(Color.WHITE);
+        input1.setBounds(11, 235, 48, 23);
+
+        JLabel separator = new JLabel(":");
+        separator.setFont(geistMono10px);
+        separator.setForeground(new Color(235, 235, 235));
+        separator.setBounds(62, 235, 6, 23);
+
+        // Create second input text field
+        JTextField input2 = new JTextField();
+        input2.setBorder(BorderFactory.createLineBorder(new Color(52, 52, 52), 1));
+        input2.setBackground(Color.BLACK);
+        input2.setForeground(Color.WHITE);
+        input2.setBounds(71, 235, 48, 23);
 
         // Create start button
         JButton startAlarm = new JButton("START");
         startAlarm.setFont(geistMono10px);
         startAlarm.setForeground(Color.BLACK);
         startAlarm.setBackground(Color.WHITE);
-        startAlarm.setBounds(224, 235, 90, 23);
+        startAlarm.setBounds(131, 235, 90, 23);
 
         // startAlarm event => Button functionality
         startAlarm.addActionListener(e -> {
-            String userInput = input.getText();
-            String[] splitInput = userInput.split(":");
             try {
+                stopwatchButton.setEnabled(false);
                 // Convert to integer
-                int HH = Integer.parseInt(splitInput[0]);
-                int MM = Integer.parseInt(splitInput[1]);
+                int HH = Integer.parseInt(input1.getText());
+                int MM = Integer.parseInt(input2.getText());
 
                 Font geistMono10 = null;
                 Font geistMono13 = null;
@@ -208,31 +220,34 @@ public class App implements Runnable{
                 }
 
                 setAlarm.setVisible(false);
-                input.setVisible(false);
+                input1.setVisible(false);
+                separator.setVisible(false);
+                input2.setVisible(false);
                 startAlarm.setVisible(false);
                 
                 JLabel alarmSetFor = new JLabel("alarm set for:");
                 alarmSetFor.setFont(geistMono10);
                 alarmSetFor.setForeground(Color.WHITE);
-                alarmSetFor.setBounds(342, 103, 118, 13);
+                alarmSetFor.setBounds(223, 154, 118, 13);
                 
-                JLabel alarmTime = new JLabel(String.format("%02d", HH) + ":" + String.format("%02d", MM));
+                JLabel alarmTime = new JLabel(String.format("%02d", HH) + ":" + String.format("%02d", MM) + ":00");
                 alarmTime.setFont(geistMono64);
                 alarmTime.setForeground(Color.WHITE);
-                alarmTime.setBounds(288, 105, 500, 83);
+                alarmTime.setBounds(114, 159, 500, 83);
 
                 JButton cancelAlarm = new JButton("CANCEL");
                 cancelAlarm.setFont(geistMono10);
                 cancelAlarm.setBackground(Color.WHITE);
                 cancelAlarm.setForeground(Color.BLACK);
                 cancelAlarm.setBounds(440, 240, 90, 23);
-
+                
                 cancelAlarm.addActionListener(k -> {
-                    frame.setVisible(false);
+                    stopwatchButton.setEnabled(true);
+                    timer2.stop();
                     mainApp();
                 });
 
-                timer2 = new Timer(1000, l -> {
+                timer2 = new Timer(100, l -> {
                     String[] clockSplit = clock.split(":");
                     int cH = Integer.parseInt(clockSplit[0]);
                     int cM = Integer.parseInt(clockSplit[1]);
@@ -246,8 +261,8 @@ public class App implements Runnable{
 
                 timer2.start();
                 
-                currentTime.setBounds(115, 103, 110, 18);
-                c.setBounds(58, 105, 500, 83);
+                currentTime.setBounds(229, 45, 110, 18);
+                c.setBounds(114, 50, 500, 83);
 
                 contentpane.add(alarmSetFor);
                 contentpane.add(alarmTime);
@@ -265,7 +280,9 @@ public class App implements Runnable{
         contentpane.add(currentTime);
         contentpane.add(c);
         contentpane.add(setAlarm);
-        contentpane.add(input);
+        contentpane.add(input1);
+        contentpane.add(separator);
+        contentpane.add(input2);
         contentpane.add(startAlarm);
         contentpane.add(stopwatchButton);
 
@@ -313,7 +330,7 @@ public class App implements Runnable{
         JLabel stopwatch = new JLabel("stopwatch:");
         stopwatch.setFont(geistMono10px);
         stopwatch.setForeground(new Color(235, 235, 235));
-        stopwatch.setBounds(229, 103, 110, 18);
+        stopwatch.setBounds(229, 108, 110, 18);
 
         // Stopwatch icon & button
         ImageIcon stopwatchIcon = new ImageIcon("img/stopwatchIcon.png");
@@ -369,6 +386,7 @@ public class App implements Runnable{
                 hour++;
                 minute = 0;
                 second = 0;
+                sH.setText(String.format("%02d", hour));
                 sM.setText(String.format("%02d", minute));
                 sS.setText(String.format("%02d", second));
             } else if (second == 59) {
@@ -383,6 +401,10 @@ public class App implements Runnable{
         });
 
         startStopwatch.addActionListener(e -> {
+            stopwatchButton.setEnabled(false);
+            hour = 0;
+            minute = 0;
+            second = 0;
             timer.start();
         });
 
@@ -395,6 +417,7 @@ public class App implements Runnable{
         stopStopwatch.setBounds(434, 235, 90, 23);
 
         stopStopwatch.addActionListener(e -> {
+            stopwatchButton.setEnabled(true);
             timer.stop();
         });
 
