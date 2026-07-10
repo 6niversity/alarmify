@@ -11,8 +11,16 @@ The repository contains two folders, where:
 - `font`: the folder containing included font
 
 ## 🆙 Current Update
+Commit A3:
+- redesign on the alarm's page
+- fixed bug where the alarm still takes place after cancelling
+- added seconds (system clock only)
+
+Commit A2.2.1
 - introducing stopwatch
 - fixed bugs
+- img directory
+
 
 ## 📝 Upcoming Changes
 - allowing the user to have a set countdown
