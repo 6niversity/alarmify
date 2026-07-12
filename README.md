@@ -11,15 +11,16 @@ The repository contains two folders, where:
 - `font`: the folder containing included font
 
 ## 🆙 Current Update
-Commit A3:
+Commit A4:
+- added menu frame
+- added clock feature
+- changed stopwatch icon to menu icon
+
+Commit A3 // Past Update:
 - redesign on the alarm's page
 - fixed bug where the alarm still takes place after cancelling
 - added seconds (system clock only)
 
-Commit A2.2.1
-- introducing stopwatch
-- fixed bugs
-- img directory
 
 
 ## 📝 Upcoming Changes
@@ -32,4 +33,5 @@ Currently alarmify is not in an executable format. The app itself needs to be ra
 > You can use the default/third-party terminals or popular IDE's. Just make sure the file is being ran within the folder and not outside of it.
 
 ## 🔏 Authority
-This applicaiton was originally made by [@6niversity](https://github.com/6niversity)
+- This applicaiton was originally made by [@6niversity](https://github.com/6niversity)
+- Icons are made by [Google](https://fonts.google.com/icons)
