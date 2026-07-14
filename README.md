@@ -11,20 +11,18 @@ The repository contains two folders, where:
 - `font`: the folder containing included font
 
 ## 🆙 Current Update
-Commit A4:
+Commit A5:
+- added countdown with presets (1 minute, 5 minutes, 10 minutes)
+- fixed bugs with alarm clock
+- added new instance fields made for countdown functionality
+
+Commit A4 // Past Update:
 - added menu frame
 - added clock feature
 - changed stopwatch icon to menu icon
 
-Commit A3 // Past Update:
-- redesign on the alarm's page
-- fixed bug where the alarm still takes place after cancelling
-- added seconds (system clock only)
-
-
-
 ## 📝 Upcoming Changes
-- allowing the user to have a set countdown
+- allowing users to choose their countdown timer
 - switch between dark mode and light mode
 - sound playing when the alarm is played
 
