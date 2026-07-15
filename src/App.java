@@ -289,7 +289,7 @@ public class App implements Runnable{
         oneMinute.setForeground(Color.WHITE);
         oneMinute.setBackground(Color.BLACK);
         oneMinute.setBorder(BorderFactory.createLineBorder(new Color(52, 52, 52), 1));
-        oneMinute.setBounds(114, 200, 90, 23);
+        oneMinute.setBounds(59, 190, 90, 23);
 
         oneMinute.addActionListener(e -> {
             countdownMinute = 1;
@@ -303,7 +303,7 @@ public class App implements Runnable{
         fiveMinute.setForeground(Color.WHITE);
         fiveMinute.setBackground(Color.BLACK);
         fiveMinute.setBorder(BorderFactory.createLineBorder(new Color(52, 52, 52), 1));
-        fiveMinute.setBounds(223, 200, 90, 23);
+        fiveMinute.setBounds(168, 190, 90, 23);
 
         fiveMinute.addActionListener(e -> {
             countdownMinute = 5;
@@ -317,7 +317,7 @@ public class App implements Runnable{
         tenMinute.setForeground(Color.WHITE);
         tenMinute.setBackground(Color.BLACK);
         tenMinute.setBorder(BorderFactory.createLineBorder(new Color(52, 52, 52),1 ));
-        tenMinute.setBounds(332, 200, 90, 23);
+        tenMinute.setBounds(277, 190, 90, 23);
 
         tenMinute.addActionListener(e -> {
             countdownMinute = 10;
@@ -326,18 +326,84 @@ public class App implements Runnable{
             clockLabel.setText(String.format("%02d", countdownHour) + ":" + String.format("%02d", countdownMinute) + ":" + String.format("%02d", countdownSecond));
         });
 
+        JButton customMinutes = new JButton("custom");
+        customMinutes.setFont(geistMono13px);
+        customMinutes.setForeground(Color.WHITE);
+        customMinutes.setBackground(Color.BLACK);
+        customMinutes.setBorder(BorderFactory.createLineBorder(new Color(52, 52, 52),1 ));
+        customMinutes.setBounds(386, 190, 90, 23);
+
         JButton startButton = new JButton("start");
         startButton.setFont(geistMono13px);
         startButton.setForeground(Color.BLACK);
         startButton.setBackground(Color.WHITE);
-        startButton.setBounds(223, 235, 90, 23);
+        startButton.setBounds(223, 225, 90, 23);
 
         startButton.addActionListener(e -> {
+            if (!(countdownHour <= 0 && countdownMinute <= 0 && countdownSecond <= 0)) {
+                startButton.setVisible(false);
+                menuButton.setVisible(false);
+                oneMinute.setVisible(false);
+                fiveMinute.setVisible(false);
+                tenMinute.setVisible(false);
+                menuButton.setVisible(false);
+
+                // Custom Fonts
+                Font lambdaMono = null;
+
+                try {
+                    lambdaMono = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(13f);
+
+                    GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+                    graphicsEnvironment.registerFont(lambdaMono);
+                } catch (IOException | FontFormatException ek) {
+                    ek.printStackTrace();
+                }
+                
+                JButton cancelButton = new JButton("cancel");
+                cancelButton.setFont(lambdaMono);
+                cancelButton.setForeground(Color.WHITE);
+                cancelButton.setBackground(Color.BLACK);
+                cancelButton.setBorder(BorderFactory.createLineBorder(new Color(52, 52,52 ), 1));
+                cancelButton.setBounds(223, 225, 90, 23);
+
+                cancelButton.addActionListener(k -> {
+                    timer3.stop();
+                    countdown();
+                });
+
+                timer3 = new Timer(1000, k -> {
+                    if (countdownMinute >= 1) {
+                        if (countdownSecond == 0) {
+                            countdownMinute--;
+                            countdownSecond = 59;
+                        } else {
+                            countdownSecond--;
+                        }
+                    }
+                    else if (countdownSecond >= 1) {
+                        countdownSecond--;
+                    } 
+                    else if (countdownMinute == 0 && countdownSecond == 0) {
+                        timer3.stop();
+                        alarmScreen();
+                    }
+                    clockLabel.setText(String.format("%02d", countdownHour) + ":" + String.format("%02d", countdownMinute) + ":" + String.format("%02d", countdownSecond));
+                });
+                timer3.start();
+
+                contentpane.add(cancelButton);
+                contentpane.repaint();
+                contentpane.revalidate();
+            }
+        });
+
+        customMinutes.addActionListener(e -> {
             startButton.setVisible(false);
-            menuButton.setVisible(false);
             oneMinute.setVisible(false);
             fiveMinute.setVisible(false);
             tenMinute.setVisible(false);
+            customMinutes.setVisible(false);
 
             // Custom Fonts
             Font lambdaMono = null;
@@ -350,37 +416,145 @@ public class App implements Runnable{
             } catch (IOException | FontFormatException ek) {
                 ek.printStackTrace();
             }
+
+            JTextField customHour = new JTextField();
+            customHour.setFont(lambdaMono);
+            customHour.setForeground(Color.WHITE);
+            customHour.setBackground(Color.BLACK);
+            customHour.setBorder(BorderFactory.createLineBorder(new Color(52, 52, 52), 1));
+            customHour.setBounds(205, 190, 34, 23);
+
+            JLabel separator1 = new JLabel(":");
+            separator1.setFont(lambdaMono);
+            separator1.setForeground(Color.WHITE);
+            separator1.setBounds(242, 190, 6, 13);
+
+            JTextField customMinute = new JTextField();
+            customMinute.setFont(lambdaMono);
+            customMinute.setForeground(Color.WHITE);
+            customMinute.setBackground(Color.BLACK);
+            customMinute.setBorder(BorderFactory.createLineBorder(new Color(52, 52, 52), 1));
+            customMinute.setBounds(251, 190, 34, 23);
+
+            JLabel separator2 = new JLabel(":");
+            separator2.setFont(lambdaMono);
+            separator2.setForeground(Color.WHITE);
+            separator2.setBounds(288, 190, 6, 13);
+
+            JTextField customSecond = new JTextField();
+            customSecond.setFont(lambdaMono);
+            customSecond.setForeground(Color.WHITE);
+            customSecond.setBackground(Color.BLACK);
+            customMinute.setBorder(BorderFactory.createLineBorder(new Color(52, 52, 52), 1));
+            customSecond.setBounds(297, 190, 34, 23);
+
+            JButton startCustom = new JButton("start");
+            startCustom.setFont(lambdaMono);
+            startCustom.setBackground(Color.WHITE);
+            startCustom.setForeground(Color.BLACK);
+            startCustom.setBounds(170, 225, 90, 23);
+
+            JButton backButton = new JButton("back");
+            backButton.setFont(lambdaMono);
+            backButton.setBackground(Color.BLACK);
+            backButton.setForeground(Color.WHITE);
+            backButton.setBorder(BorderFactory.createLineBorder(new Color(52, 52, 52), 1));
+            backButton.setBounds(275, 226, 90, 23);
             
-            JButton cancelButton = new JButton("cancel");
-            cancelButton.setFont(lambdaMono);
-            cancelButton.setForeground(Color.WHITE);
-            cancelButton.setBackground(Color.BLACK);
-            cancelButton.setBorder(BorderFactory.createLineBorder(new Color(52, 52,52 ), 1));
-            cancelButton.setBounds(223, 235, 90, 23);
+            startCustom.addActionListener(j -> {
+                try {
+                    startCustom.setVisible(false);
+                    backButton.setVisible(false);
+                    customHour.setVisible(false);
+                    separator1.setVisible(false);
+                    customMinute.setVisible(false);
+                    separator2.setVisible(false);
+                    customSecond.setVisible(false);
+                    menuButton.setVisible(false);
 
-            cancelButton.addActionListener(k -> {
-                timer3.stop();
-                countdown();
-            });
+                    // Custom Fonts
+                    Font lambdaMono2 = null;
 
-            timer3 = new Timer(1000, k -> {
-                if (countdownMinute >= 1) {
-                    if (countdownSecond == 0) {
-                        countdownMinute--;
-                        countdownSecond = 59;
-                    } else {
-                        countdownSecond--;
+                    try {
+                        lambdaMono2 = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(13f);
+
+                        GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+                        graphicsEnvironment.registerFont(lambdaMono2);
+                    } catch (IOException | FontFormatException ek) {
+                        ek.printStackTrace();
                     }
-                } else if (countdownMinute == 0 && countdownSecond == 0) {
-                    timer3.stop();
-                }
-                clockLabel.setText(String.format("%02d", countdownHour) + ":" + String.format("%02d", countdownMinute) + ":" + String.format("%02d", countdownSecond));
-            });
-            timer3.start();
 
-            contentpane.add(cancelButton);
-            contentpane.repaint();
-            contentpane.revalidate();
+                    countdownHour = Integer.parseInt(customHour.getText());
+                    countdownMinute = Integer.parseInt(customMinute.getText());
+                    countdownSecond = Integer.parseInt(customSecond.getText());
+
+                    clockLabel.setText(String.format("%02d", countdownHour) + ":" + String.format("%02d", countdownMinute) + ":" + String.format("%02d", countdownSecond));
+
+                    if (countdownHour >= 24 || countdownMinute >= 60 || countdownSecond >= 60) {
+                        countdown();
+                    }
+
+                    JButton cancelButton = new JButton("cancel");
+                    cancelButton.setFont(lambdaMono2);
+                    cancelButton.setForeground(Color.WHITE);
+                    cancelButton.setBackground(Color.BLACK);
+                    cancelButton.setBorder(BorderFactory.createLineBorder(new Color(52, 52,52 ), 1));
+                    cancelButton.setBounds(223, 225, 90, 23);
+
+                    cancelButton.addActionListener(k -> {
+                        timer3.stop();
+                        countdown();
+                    });
+
+                    timer3 = new Timer(1000, k -> {
+                        if (countdownHour >= 1) {
+                            if (countdownMinute == 0 && countdownSecond == 0) {
+                                countdownHour--;
+                                countdownMinute = 59;
+                                countdownSecond = 59;
+                            } else if (countdownSecond == 0) {
+                                countdownMinute--;
+                                countdownSecond = 59;
+                            } else {
+                                countdownSecond--;
+                            }
+                        }
+                        else if (countdownMinute >= 1) {
+                            if (countdownSecond == 0) {
+                                countdownMinute--;
+                                countdownSecond = 59;
+                            } else {
+                                countdownSecond--;
+                            }
+                        } 
+                        else if (countdownSecond >= 1) {
+                            countdownSecond--;
+                        }
+                        else if (countdownHour == 0 && countdownMinute == 0 && countdownSecond == 0) {
+                            timer3.stop();
+                            alarmScreen();
+                        }
+                        clockLabel.setText(String.format("%02d", countdownHour) + ":" + String.format("%02d", countdownMinute) + ":" + String.format("%02d", countdownSecond));
+                    });
+                    timer3.start();
+
+                    contentpane.add(cancelButton);
+                    contentpane.repaint();
+                    contentpane.revalidate();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    countdown();
+                }
+            });
+
+            contentpane.add(customHour);
+            contentpane.add(separator1);
+            contentpane.add(customMinute);
+            contentpane.add(separator2);
+            contentpane.add(customSecond);
+            contentpane.add(startCustom);
+            contentpane.add(backButton);
+
         });
 
 
@@ -391,6 +565,7 @@ public class App implements Runnable{
         contentpane.add(fiveMinute);
         contentpane.add(tenMinute);
         contentpane.add(startButton);
+        contentpane.add(customMinutes);
 
         frame.setVisible(true);
     }

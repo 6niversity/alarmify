@@ -11,6 +11,10 @@ The repository contains two folders, where:
 - `font`: the folder containing included font
 
 ## 🆙 Current Update
+Commit A5.1:
+- fixed minor countdown bugs
+- added custom countdown option
+
 Commit A5:
 - added countdown with presets (1 minute, 5 minutes, 10 minutes)
 - fixed bugs with alarm clock
