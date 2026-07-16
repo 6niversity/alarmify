@@ -11,24 +11,16 @@ The repository contains two folders, where:
 - `font`: the folder containing included font
 
 ## 🆙 Current Update
+Commit A5.2:
+- added sound effect // later to be changed
+- major patches for countdown
+
 Commit A5.1:
 - fixed minor countdown bugs
 - added custom countdown option
 
-Commit A5:
-- added countdown with presets (1 minute, 5 minutes, 10 minutes)
-- fixed bugs with alarm clock
-- added new instance fields made for countdown functionality
-
-Commit A4 // Past Update:
-- added menu frame
-- added clock feature
-- changed stopwatch icon to menu icon
-
 ## 📝 Upcoming Changes
-- allowing users to choose their countdown timer
 - switch between dark mode and light mode
-- sound playing when the alarm is played
 
 ## ❗️ Important Information
 Currently alarmify is not in an executable format. The app itself needs to be ran from inside the folder from a terminal or IDE.
@@ -37,3 +29,4 @@ Currently alarmify is not in an executable format. The app itself needs to be ra
 ## 🔏 Authority
 - This applicaiton was originally made by [@6niversity](https://github.com/6niversity)
 - Icons are made by [Google](https://fonts.google.com/icons)
+- Current alarm sound effect by [@Universfield](https://pixabay.com/users/universfield-28281460/) // pixabay

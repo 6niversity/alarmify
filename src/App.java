@@ -4,6 +4,9 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 
+// audio
+import javax.sound.sampled.*;
+
 public class App implements Runnable{
     // Instance Fields
     private static String clock;
@@ -43,6 +46,14 @@ public class App implements Runnable{
         }
     }
 
+    public static void audio() throws UnsupportedAudioFileException, IOException, LineUnavailableException {
+        File file = new File("Level_Up.wav");
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioStream);
+        clip.start();
+    }
+
     public static void clockMethod() {
         JFrame frame = new JFrame();
         Container contentpane = frame.getContentPane();
@@ -62,9 +73,9 @@ public class App implements Runnable{
         Font geistMono64px = null;
 
         try {
-            geistMono10px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(10f);
-            geistMono13px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(13f);
-            geistMono64px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(64f);
+            geistMono10px = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(10f);
+            geistMono13px = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(13f);
+            geistMono64px = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(64f);
 
             GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
             graphicsEnvironment.registerFont(geistMono10px);
@@ -81,7 +92,7 @@ public class App implements Runnable{
         title.setBounds(11, 10, 185, 18);
 
         // Stopwatch icon & button
-        ImageIcon menuIcon = new ImageIcon("img/menuicon.png");
+        ImageIcon menuIcon = new ImageIcon("res/img/menuicon.png");
         JButton menuButton = new JButton(menuIcon);
         menuButton.setBorderPainted(false);
         menuButton.setBackground(null);
@@ -136,8 +147,8 @@ public class App implements Runnable{
         Font geistMono13px = null;
 
         try {
-            geistMono10px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(10f);
-            geistMono13px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(13f);
+            geistMono10px = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(10f);
+            geistMono13px = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(13f);
 
             GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
             graphicsEnvironment.registerFont(geistMono10px);
@@ -215,7 +226,7 @@ public class App implements Runnable{
         });
 
         // logo
-        ImageIcon logoImg = new ImageIcon("img/unilogo.png");
+        ImageIcon logoImg = new ImageIcon("res/img/unilogo.png");
         JLabel logo = new JLabel(logoImg);
         logo.setBackground(null);
         logo.setBounds(0, 227, 44, 44);
@@ -249,9 +260,9 @@ public class App implements Runnable{
         Font geistMono64px = null;
 
         try {
-            geistMono10px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(10f);
-            geistMono13px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(13f);
-            geistMono64px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(64f);
+            geistMono10px = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(10f);
+            geistMono13px = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(13f);
+            geistMono64px = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(64f);
 
             GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
             graphicsEnvironment.registerFont(geistMono10px);
@@ -268,7 +279,7 @@ public class App implements Runnable{
         title.setBounds(11, 10, 185, 18);
 
         // Stopwatch icon & button
-        ImageIcon menuIcon = new ImageIcon("img/menuicon.png");
+        ImageIcon menuIcon = new ImageIcon("res/img/menuicon.png");
         JButton menuButton = new JButton(menuIcon);
         menuButton.setBorderPainted(false);
         menuButton.setBackground(null);
@@ -352,7 +363,7 @@ public class App implements Runnable{
                 Font lambdaMono = null;
 
                 try {
-                    lambdaMono = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(13f);
+                    lambdaMono = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(13f);
 
                     GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
                     graphicsEnvironment.registerFont(lambdaMono);
@@ -386,7 +397,7 @@ public class App implements Runnable{
                     } 
                     else if (countdownMinute == 0 && countdownSecond == 0) {
                         timer3.stop();
-                        alarmScreen();
+                        try {alarmScreen();} catch (Exception ex) {ex.printStackTrace();}
                     }
                     clockLabel.setText(String.format("%02d", countdownHour) + ":" + String.format("%02d", countdownMinute) + ":" + String.format("%02d", countdownSecond));
                 });
@@ -409,7 +420,7 @@ public class App implements Runnable{
             Font lambdaMono = null;
 
             try {
-                lambdaMono = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(13f);
+                lambdaMono = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(13f);
 
                 GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
                 graphicsEnvironment.registerFont(lambdaMono);
@@ -476,17 +487,49 @@ public class App implements Runnable{
                     Font lambdaMono2 = null;
 
                     try {
-                        lambdaMono2 = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(13f);
+                        lambdaMono2 = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(13f);
 
                         GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
                         graphicsEnvironment.registerFont(lambdaMono2);
                     } catch (IOException | FontFormatException ek) {
                         ek.printStackTrace();
                     }
+                    
+                    try {
+                        countdownHour = Integer.parseInt(customHour.getText());
+                        countdownMinute = Integer.parseInt(customMinute.getText());
+                        countdownSecond = Integer.parseInt(customSecond.getText());
+                    } catch (Exception _) {
+                        // get the values as string
+                        String stringHour = customHour.getText();
+                        String stringMinute = customMinute.getText();
+                        String stringSecond = customSecond.getText();
 
-                    countdownHour = Integer.parseInt(customHour.getText());
-                    countdownMinute = Integer.parseInt(customMinute.getText());
-                    countdownSecond = Integer.parseInt(customSecond.getText());
+                        if (stringHour.equals("") && stringMinute.equals("") && stringSecond.equals("")) {
+                            countdown();
+                        } else {
+                            // put them in a string array
+                            String[] stringArr = {stringHour, stringMinute, stringSecond};
+
+                            for (int i = 0; i < stringArr.length; i++) {
+                                if (i == 0 && stringArr[i].equals("")) {
+                                    countdownHour = 0;
+                                } else if (i == 1 && stringArr[i].equals("")) {
+                                    countdownMinute = 0;
+                                } else if (i == 2 && stringArr[i].equals("")) {
+                                    countdownSecond = 0;
+                                }
+
+                                if (i == 0 && !(stringArr[i].equals(""))) {
+                                    countdownHour = Integer.parseInt(customHour.getText());
+                                } else if (i == 1 && !(stringArr[i].equals(""))) {
+                                    countdownMinute = Integer.parseInt(customMinute.getText());
+                                } else if (i == 2 && !(stringArr[i].equals(""))) {
+                                    countdownSecond = Integer.parseInt(customSecond.getText());
+                                }
+                            }
+                        }
+                    }
 
                     clockLabel.setText(String.format("%02d", countdownHour) + ":" + String.format("%02d", countdownMinute) + ":" + String.format("%02d", countdownSecond));
 
@@ -532,7 +575,7 @@ public class App implements Runnable{
                         }
                         else if (countdownHour == 0 && countdownMinute == 0 && countdownSecond == 0) {
                             timer3.stop();
-                            alarmScreen();
+                            try {alarmScreen();} catch (Exception ex) {ex.printStackTrace();}
                         }
                         clockLabel.setText(String.format("%02d", countdownHour) + ":" + String.format("%02d", countdownMinute) + ":" + String.format("%02d", countdownSecond));
                     });
@@ -570,7 +613,13 @@ public class App implements Runnable{
         frame.setVisible(true);
     }
 
-    public static void alarmScreen() {
+    public static void alarmScreen() throws Exception {
+        File file = new File("res/sfx/alarm.wav");
+        AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+        Clip clip = AudioSystem.getClip();
+        clip.open(audioStream);
+        clip.start();
+
         JFrame alarmFrame = new JFrame();
         Container contentpane = alarmFrame.getContentPane();
 
@@ -588,8 +637,8 @@ public class App implements Runnable{
         Font geistMono13px = null;
 
         try {
-            geistMono10px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(10f);
-            geistMono13px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(13f);
+            geistMono10px = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(10f);
+            geistMono13px = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(13f);
 
             GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
             graphicsEnvironment.registerFont(geistMono10px);
@@ -618,6 +667,7 @@ public class App implements Runnable{
         continueButton.setBounds(440, 240, 90, 23);
 
         continueButton.addActionListener(e -> {
+            clip.stop();
             alarmFrame.setVisible(false);
             mainApp();
         });
@@ -649,9 +699,9 @@ public class App implements Runnable{
         Font geistMono64px = null;
 
         try {
-            geistMono10px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(10f);
-            geistMono13px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(13f);
-            geistMono64px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(64f);
+            geistMono10px = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(10f);
+            geistMono13px = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(13f);
+            geistMono64px = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(64f);
 
             GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
             graphicsEnvironment.registerFont(geistMono10px);
@@ -668,7 +718,7 @@ public class App implements Runnable{
         title.setBounds(11, 10, 185, 13);
 
         // Stopwatch icon & button
-        ImageIcon menuIcon = new ImageIcon("img/menuicon.png");
+        ImageIcon menuIcon = new ImageIcon("res/img/menuicon.png");
         JButton menuButton = new JButton(menuIcon);
         menuButton.setBorderPainted(false);
         menuButton.setBackground(null);
@@ -742,9 +792,9 @@ public class App implements Runnable{
                 Font geistMono64 = null;
 
                 try {
-                    geistMono10 = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(10f);
-                    geistMono13 = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(23f);
-                    geistMono64 = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(64f);
+                    geistMono10 = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(10f);
+                    geistMono13 = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(23f);
+                    geistMono64 = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(64f);
 
                     GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
                     graphicsEnvironment.registerFont(geistMono10);
@@ -790,7 +840,7 @@ public class App implements Runnable{
                     if (cH == HH && cM == MM) {
                         timer2.stop();
                         frame.setVisible(false);
-                        alarmScreen();
+                        try {alarmScreen();} catch (Exception ex) {ex.printStackTrace();}
                     }
                 });
 
@@ -845,9 +895,9 @@ public class App implements Runnable{
         Font geistMono64px = null;
 
         try {
-            geistMono10px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(10f);
-            geistMono13px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(13f);
-            geistMono64px = Font.createFont(Font.TRUETYPE_FONT, new File("font/geistmono.ttf")).deriveFont(64f);
+            geistMono10px = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(10f);
+            geistMono13px = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(13f);
+            geistMono64px = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(64f);
 
             GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
             graphicsEnvironment.registerFont(geistMono10px);
@@ -870,7 +920,7 @@ public class App implements Runnable{
         stopwatch.setBounds(229, 108, 110, 18);
 
         // Stopwatch icon & button
-        ImageIcon menuIcon = new ImageIcon("img/menuicon.png");
+        ImageIcon menuIcon = new ImageIcon("res/img/menuicon.png");
         JButton menuButton = new JButton(menuIcon);
         menuButton.setBorderPainted(false);
         menuButton.setBackground(null);
