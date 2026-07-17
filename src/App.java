@@ -13,13 +13,19 @@ public class App implements Runnable{
     private static Timer timer2;
     private static Timer timer3;
 
+    // convert to integer - clock
     private static int hour = 0;
     private static int minute = 0;
     private static int second = 0;
 
+    // conver to integer - countdown
     private static int countdownHour = 0;
     private static int countdownMinute = 0;
     private static int countdownSecond = 0;
+
+    // Convert to integer - alarm
+    private static int HH = 0;
+    private static int MM = 0;
 
     public static void main(String[] args) throws Exception {
         try {
@@ -380,6 +386,7 @@ public class App implements Runnable{
 
                 cancelButton.addActionListener(k -> {
                     timer3.stop();
+                    frame.setVisible(false);
                     countdown();
                 });
 
@@ -511,22 +518,14 @@ public class App implements Runnable{
                             // put them in a string array
                             String[] stringArr = {stringHour, stringMinute, stringSecond};
 
-                            for (int i = 0; i < stringArr.length; i++) {
-                                if (i == 0 && stringArr[i].equals("")) {
-                                    countdownHour = 0;
-                                } else if (i == 1 && stringArr[i].equals("")) {
-                                    countdownMinute = 0;
-                                } else if (i == 2 && stringArr[i].equals("")) {
-                                    countdownSecond = 0;
-                                }
-
-                                if (i == 0 && !(stringArr[i].equals(""))) {
-                                    countdownHour = Integer.parseInt(customHour.getText());
-                                } else if (i == 1 && !(stringArr[i].equals(""))) {
-                                    countdownMinute = Integer.parseInt(customMinute.getText());
-                                } else if (i == 2 && !(stringArr[i].equals(""))) {
-                                    countdownSecond = Integer.parseInt(customSecond.getText());
-                                }
+                            if (!(stringArr[0].equals(""))) {
+                                countdownHour = Integer.parseInt(customHour.getText());
+                            }
+                            if (!(stringArr[1].equals(""))) {
+                                countdownMinute = Integer.parseInt(customMinute.getText());
+                            }
+                            if (!(stringArr[2].equals(""))) {
+                                countdownSecond = Integer.parseInt(customSecond.getText());
                             }
                         }
                     }
@@ -546,6 +545,12 @@ public class App implements Runnable{
 
                     cancelButton.addActionListener(k -> {
                         timer3.stop();
+                        frame.setVisible(false);
+
+                        countdownHour = 0;
+                        countdownMinute = 0;
+                        countdownSecond = 0;
+
                         countdown();
                     });
 
@@ -586,6 +591,7 @@ public class App implements Runnable{
                     contentpane.revalidate();
                 } catch (Exception ex) {
                     ex.printStackTrace();
+                    frame.setVisible(false);
                     countdown();
                 }
             });
@@ -781,11 +787,25 @@ public class App implements Runnable{
 
         // startAlarm event => Button functionality
         startAlarm.addActionListener(e -> {
+            String hourString = input1.getText();
+            String minuteString = input2.getText();
+
+            String[] inputAlarm = {hourString, minuteString};
+
             try {
                 menuButton.setVisible(false);
-                // Convert to integer
-                int HH = Integer.parseInt(input1.getText());
-                int MM = Integer.parseInt(input2.getText());
+
+                if (!(inputAlarm[0].equals(""))) {
+                    HH = Integer.parseInt(hourString);
+                }
+                if (!(inputAlarm[1].equals(""))) {
+                    MM = Integer.parseInt(minuteString);
+                }
+
+                if (HH > 24 || MM > 59) {
+                    frame.setVisible(false);
+                    mainApp();
+                }
 
                 Font geistMono10 = null;
                 Font geistMono13 = null;
@@ -828,6 +848,11 @@ public class App implements Runnable{
                 
                 cancelAlarm.addActionListener(k -> {
                     menuButton.setVisible(true);
+                    frame.setVisible(false);
+
+                    HH = 0;
+                    MM = 0;
+
                     timer2.stop();
                     mainApp();
                 });

@@ -11,13 +11,13 @@ The repository contains two folders, where:
 - `font`: the folder containing included font
 
 ## 🆙 Current Update
-Commit A5.2:
+Commit A5.2.2: 
+- countdown & alarm patches
+
+Commit A5.2 & A5.2.1:
 - added sound effect // later to be changed
 - major patches for countdown
-
-Commit A5.1:
-- fixed minor countdown bugs
-- added custom countdown option
+- cleared README.md
 
 ## 📝 Upcoming Changes
 - switch between dark mode and light mode
@@ -29,4 +29,4 @@ Currently alarmify is not in an executable format. The app itself needs to be ra
 ## 🔏 Authority
 - This applicaiton was originally made by [@6niversity](https://github.com/6niversity)
 - Icons are made by [Google](https://fonts.google.com/icons)
-- Current alarm sound effect by [@Universfield](https://pixabay.com/users/universfield-28281460/) // pixabay
+- Current alarm sound effect by [@Universfield](https://pixabay.com/users/universfield-28281460/)
