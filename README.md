@@ -11,14 +11,13 @@ The repository contains two folders, where:
 - `font`: the folder containing included font
 
 ## 🆙 Current Update
+Commit A5.2.3:
+- more functionality on the countdown page (pause/unpause implemented)
+
 Commit A5.2.2: 
 - countdown & alarm patches
 
-Commit A5.2 & A5.2.1:
-- added sound effect // later to be changed
-- major patches for countdown
-- cleared README.md
-
+> Older patches with information can be found within the commits tab
 ## 📝 Upcoming Changes
 - switch between dark mode and light mode
 

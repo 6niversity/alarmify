@@ -991,7 +991,7 @@ public class App implements Runnable{
         startStopwatch.setFont(geistMono10px);
         startStopwatch.setForeground(Color.BLACK);
         startStopwatch.setBackground(Color.WHITE);
-        startStopwatch.setBounds(335, 235, 90, 23);
+        startStopwatch.setBounds(434, 235, 90, 23);
 
         Timer timer = new Timer(1000, e -> {
             if (minute == 59) {
@@ -1014,23 +1014,73 @@ public class App implements Runnable{
 
         startStopwatch.addActionListener(e -> {
             menuButton.setVisible(false);
+            startStopwatch.setVisible(false);
+
+            // Custom Fonts
+            Font lambdaMono = null;
+
+            try {
+                lambdaMono = Font.createFont(Font.TRUETYPE_FONT, new File("res/font/geistmono.ttf")).deriveFont(10f);
+
+                GraphicsEnvironment graphicsEnvironment = GraphicsEnvironment.getLocalGraphicsEnvironment();
+                graphicsEnvironment.registerFont(lambdaMono);
+            } catch (IOException | FontFormatException ek) {
+                ek.printStackTrace();
+            }
+
             hour = 0;
             minute = 0;
             second = 0;
             timer.start();
-        });
 
-        // stop button
-        JButton stopStopwatch = new JButton("STOP");
-        stopStopwatch.setFont(geistMono10px);
-        stopStopwatch.setForeground(Color.WHITE);
-        stopStopwatch.setBackground(Color.BLACK);
-        stopStopwatch.setBorder(BorderFactory.createLineBorder(new Color(52, 52, 52), 1));
-        stopStopwatch.setBounds(434, 235, 90, 23);
+            // stop button
+            JButton stopStopwatch = new JButton("STOP");
+            stopStopwatch.setFont(lambdaMono);
+            stopStopwatch.setForeground(Color.WHITE);
+            stopStopwatch.setBackground(Color.BLACK);
+            stopStopwatch.setBorder(BorderFactory.createLineBorder(new Color(52, 52, 52), 1));
+            stopStopwatch.setBounds(434, 235, 90, 23);
 
-        stopStopwatch.addActionListener(e -> {
-            menuButton.setVisible(true);
-            timer.stop();
+            stopStopwatch.addActionListener(k -> {
+                menuButton.setVisible(true);
+                frame.setVisible(false);
+
+                timer.stop();
+
+                stopwatch();
+            });
+
+            JButton pauseStopwatch = new JButton("PAUSE");
+            pauseStopwatch.setFont(lambdaMono);
+            pauseStopwatch.setForeground(Color.BLACK);
+            pauseStopwatch.setBackground(Color.WHITE);
+            pauseStopwatch.setBounds(335, 235, 90, 23);
+
+            JButton restartStopwatch = new JButton("RESTART");
+            restartStopwatch.setFont(lambdaMono);
+            restartStopwatch.setForeground(Color.BLACK);
+            restartStopwatch.setBackground(Color.WHITE);
+            restartStopwatch.setBounds(335, 235, 90, 23);
+            
+            restartStopwatch.addActionListener(k -> {
+                pauseStopwatch.setVisible(true);
+                restartStopwatch.setVisible(false);
+                timer.start();
+            });
+
+            pauseStopwatch.addActionListener(k -> {
+                restartStopwatch.setVisible(true);
+                pauseStopwatch.setVisible(false);
+                timer.stop();
+            });
+
+            contentpane.add(stopStopwatch);
+            contentpane.add(pauseStopwatch);
+            contentpane.add(restartStopwatch);
+
+            frame.repaint();
+            frame.revalidate();
+            restartStopwatch.setVisible(false);
         });
 
         contentpane.add(title);
@@ -1042,7 +1092,6 @@ public class App implements Runnable{
         contentpane.add(separator2);
         contentpane.add(sS);
         contentpane.add(startStopwatch);
-        contentpane.add(stopStopwatch);
 
         frame.setVisible(true);
     }
