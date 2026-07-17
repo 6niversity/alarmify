@@ -364,6 +364,7 @@ public class App implements Runnable{
                 fiveMinute.setVisible(false);
                 tenMinute.setVisible(false);
                 menuButton.setVisible(false);
+                customMinutes.setVisible(false);
 
                 // Custom Fonts
                 Font lambdaMono = null;

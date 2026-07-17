@@ -11,11 +11,12 @@ The repository contains two folders, where:
 - `font`: the folder containing included font
 
 ## 🆙 Current Update
-Commit A5.2.3:
-- more functionality on the countdown page (pause/unpause implemented)
+Commit A5.2.4:
+- minor gui patch on countdown frame
 
-Commit A5.2.2: 
+Commit A5.2.2 & Commit A5.2.3:
 - countdown & alarm patches
+- more functionality on the countdown page (pause/unpause implemented)
 
 > Older patches with information can be found within the commits tab
 ## 📝 Upcoming Changes
